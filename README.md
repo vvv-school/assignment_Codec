@@ -64,7 +64,7 @@ $ yarp read ... /Codec/out
 $ yarp write ... /Codec/in
 >> hello
 ```
-You should be able to see the codec message (i.e. `(%,,/`)in the `yarp read` terminal.
+You should be able to see the codec message (i.e. `"(%,,/"`)in the `yarp read` terminal.
 
 - In a terminal run `yarp rpc` and check your interfaces  
 ```
@@ -74,7 +74,7 @@ Response: coder
 >> set_mode decoder
 Response: [ok]
 ```
-Now if you write a `(%,,/` in the `yarp write` terminal you should be able to see the encoded message (i.e. `hello`) in the `yarp read` terminal.  
+Now if you write a `"(%,,/"` in the `yarp write` terminal you should be able to see the encoded message (i.e. `hello`) in the `yarp read` terminal.  
 
 
 # Run the smoke test

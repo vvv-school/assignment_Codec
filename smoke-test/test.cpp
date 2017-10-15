@@ -105,7 +105,7 @@ public:
         cmd.addString("set_mode");
         cmd.addString("coder");
         rpc.write(cmd, reply);
-        RTF_ASSERT_FAIL_IF(reply.toString()=="[ok]", "setting decoder mode using set_mode()");
+        RTF_ASSERT_FAIL_IF_FALSE(reply.toString()=="[ok]", "setting decoder mode using set_mode()");
 
         RTF_TEST_REPORT("Testing coded");
         // setting codec
@@ -133,7 +133,7 @@ public:
         cmd.addString("set_mode");
         cmd.addString("decoder");
         rpc.write(cmd, reply);
-        RTF_ASSERT_FAIL_IF(reply.toString()=="[ok]", "setting decoder mode using set_mode()");
+        RTF_ASSERT_FAIL_IF_FALSE(reply.toString()=="[ok]", "setting decoder mode using set_mode()");
         // checking message
         RTF_TEST_REPORT(Asserter::format("Writing test message %s", TEST_MESSAGE_CODED));
         msg = portOut.prepare();

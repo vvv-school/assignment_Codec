@@ -66,16 +66,16 @@ public:
     /******************************************************************/
     virtual bool setup(yarp::os::Property& property) {
 
-        RTF_ASSERT_ERROR_IF(portOut.open("/TestAssignmentCoded/o"), "Cannot open the output port");
-        RTF_ASSERT_ERROR_IF(portIn.open("/TestAssignmentCoded/i"), "Cannot open the output port");
-        RTF_ASSERT_ERROR_IF(rpc.open("/TestAssignmentCoded/rpc"), "Cannot open the output port");
+        RTF_ASSERT_ERROR_IF_FALSE(portOut.open("/TestAssignmentCoded/o"), "Cannot open the output port");
+        RTF_ASSERT_ERROR_IF_FALSE(portIn.open("/TestAssignmentCoded/i"), "Cannot open the output port");
+        RTF_ASSERT_ERROR_IF_FALSE(rpc.open("/TestAssignmentCoded/rpc"), "Cannot open the output port");
 
-        RTF_ASSERT_ERROR_IF(NetworkBase::connect("/coder/Codec/out", portIn.getName()),
-                            "Cannot connect to /coder/Codec/out");
-        RTF_ASSERT_ERROR_IF(NetworkBase::connect(portOut.getName(), "/coder/Codec/in"),
-                            "Cannot connect to /coder/Codec/in");
-        RTF_ASSERT_ERROR_IF(NetworkBase::connect(rpc.getName(), "/coder/Codec/rpc"),
-                            "Cannot connect to /coder/Codec/rpc");
+        RTF_ASSERT_ERROR_IF_FALSE(NetworkBase::connect("/coder/Codec/out", portIn.getName()),
+                                  "Cannot connect to /coder/Codec/out");
+        RTF_ASSERT_ERROR_IF_FALSE(NetworkBase::connect(portOut.getName(), "/coder/Codec/in"),
+                                  "Cannot connect to /coder/Codec/in");
+        RTF_ASSERT_ERROR_IF_FALSE(NetworkBase::connect(rpc.getName(), "/coder/Codec/rpc"),
+                                  "Cannot connect to /coder/Codec/rpc");
 
         portIn.useCallback();
         return true;

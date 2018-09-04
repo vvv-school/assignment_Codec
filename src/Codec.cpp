@@ -73,7 +73,7 @@ bool Codec::updateModule() {
 
     Bottle& output = outPort.prepare();
     output.clear();
-    output.addString(data.c_str());
+    output.addString(data);
     outPort.write();
     return true;
 }

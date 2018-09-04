@@ -48,7 +48,7 @@ public:
 };
 
 /**********************************************************************/
-class TestAssignmentCoded : public yarp::rtf::TestCase
+class TestAssignmentCodec : public yarp::rtf::TestCase
 {
 private:
         BufferedPort<Bottle> portOut;
@@ -56,19 +56,19 @@ private:
         RpcClient rpc;
 public:
     /******************************************************************/
-    TestAssignmentCoded() :
-        yarp::rtf::TestCase("TestAssignmentCoded") { }
+    TestAssignmentCodec() :
+        yarp::rtf::TestCase("TestAssignmentCodec") { }
 
     /******************************************************************/
-    virtual ~TestAssignmentCoded() {
+    virtual ~TestAssignmentCodec() {
     }
 
     /******************************************************************/
     virtual bool setup(yarp::os::Property& property) {
 
-        RTF_ASSERT_ERROR_IF_FALSE(portOut.open("/TestAssignmentCoded/o"), "Cannot open the output port");
-        RTF_ASSERT_ERROR_IF_FALSE(portIn.open("/TestAssignmentCoded/i"), "Cannot open the output port");
-        RTF_ASSERT_ERROR_IF_FALSE(rpc.open("/TestAssignmentCoded/rpc"), "Cannot open the output port");
+        RTF_ASSERT_ERROR_IF_FALSE(portOut.open("/TestAssignmentCodec/o"), "Cannot open the output port");
+        RTF_ASSERT_ERROR_IF_FALSE(portIn.open("/TestAssignmentCodec/i"), "Cannot open the output port");
+        RTF_ASSERT_ERROR_IF_FALSE(rpc.open("/TestAssignmentCodec/rpc"), "Cannot open the output port");
 
         RTF_ASSERT_ERROR_IF_FALSE(NetworkBase::connect("/coder/Codec/out", portIn.getName()),
                                   "Cannot connect to /coder/Codec/out");
@@ -83,7 +83,7 @@ public:
 
     /******************************************************************/
     virtual void tearDown() {
-        RTF_TEST_REPORT("Tearing down TestAssignmentCoded");
+        RTF_TEST_REPORT("Tearing down TestAssignmentCodec");
         NetworkBase::disconnect("/coder/Codec/in", portIn.getName());
         NetworkBase::disconnect(portOut.getName(), "/coder/Codec/out");
         NetworkBase::disconnect(rpc.getName(), "/coder/Codec/rpc");
@@ -154,4 +154,4 @@ public:
     }
 };
 
-PREPARE_PLUGIN(TestAssignmentCoded)
+PREPARE_PLUGIN(TestAssignmentCodec)

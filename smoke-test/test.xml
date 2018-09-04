@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<suite name="Test tutorial RFModule">
-    <description>Testing the RFModule tutorial</description>
+<suite name="Test Assignment Codec">
+    <description>Testing the Assignment Codec</description>
     <environment></environment>
     <fixture param="--fixture fixture.xml"> yarpmanager </fixture>
-    <test type="dll" param=""> TestAssignmentCoded </test>
+    <test type="dll" param=""> TestAssignmentCodec </test>
 </suite>

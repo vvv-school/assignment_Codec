@@ -1,7 +1,7 @@
-Assignment on RFModule and Yarp thrift IDL
+Assignment on RFModule and YARP thrift IDL
 ==========================================
 
-In this assignment (assignment_Codec) you are asked to add a service interface (using Yarp thrift IDL) to the previously developed module during the [tutorial_RFModule](https://github.com/vvv-school/tutorial_RFModule).
+In this assignment (assignment_Codec) you are asked to add a service interface (using YARP thrift IDL) to the previously developed module during the [tutorial_RFModule](https://github.com/vvv-school/tutorial_RFModule).
 
 
 # Assignment
@@ -18,7 +18,7 @@ It had an input port to receive text messages, an output port to steam out the e
 Via this RPC port we should be able to call the following methods:
 1. `set_mode()` which accept a **string** (i.e. `coder`, `decoder`) and  switch the module behavior between coding and decoding mode.
 2. `get_mode()` returns an **string** showing the module current mode (i.e. `coder`, `decoder`).
-3. `set_codec()` accepts an **integer** (i.e. the asscci code of a character) and uses it to encode/decode the string.
+3. `set_codec()` accepts an **integer** (i.e. the ASCII code of a character) and uses it to encode/decode the string.
 
 
 # What do you need to do?

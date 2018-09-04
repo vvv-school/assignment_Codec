@@ -29,5 +29,3 @@ int main(int argc, char * argv[])
     yInfo()<<"Main returning...";
     return 0;
 }
-
-

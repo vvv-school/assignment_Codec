@@ -6,9 +6,9 @@
 
 #include <string>
 
-#include <yarp/rtf/TestCase.h>
-#include <rtf/dll/Plugin.h>
-#include <rtf/TestAssert.h>
+#include <yarp/robottestingframework/TestCase.h>
+#include <robottestingframework/dll/Plugin.h>
+#include <robottestingframework/TestAssert.h>
 
 
 #include <yarp/os/all.h>
@@ -17,7 +17,7 @@
 #include <yarp/math/Math.h>
 
 using namespace std;
-using namespace RTF;
+using namespace robottestingframework;
 using namespace yarp::os;
 using namespace yarp::dev;
 using namespace yarp::sig;
@@ -48,7 +48,7 @@ public:
 };
 
 /**********************************************************************/
-class TestAssignmentCodec : public yarp::rtf::TestCase
+class TestAssignmentCodec : public yarp::robottestingframework::TestCase
 {
 private:
         BufferedPort<Bottle> portOut;
@@ -57,7 +57,7 @@ private:
 public:
     /******************************************************************/
     TestAssignmentCodec() :
-        yarp::rtf::TestCase("TestAssignmentCodec") { }
+        yarp::robottestingframework::TestCase("TestAssignmentCodec") { }
 
     /******************************************************************/
     virtual ~TestAssignmentCodec() {
@@ -66,15 +66,15 @@ public:
     /******************************************************************/
     virtual bool setup(yarp::os::Property& property) {
 
-        RTF_ASSERT_ERROR_IF_FALSE(portOut.open("/TestAssignmentCodec/o"), "Cannot open the output port");
-        RTF_ASSERT_ERROR_IF_FALSE(portIn.open("/TestAssignmentCodec/i"), "Cannot open the output port");
-        RTF_ASSERT_ERROR_IF_FALSE(rpc.open("/TestAssignmentCodec/rpc"), "Cannot open the output port");
+        ROBOTTESTINGFRAMEWORK_ASSERT_ERROR_IF_FALSE(portOut.open("/TestAssignmentCodec/o"), "Cannot open the output port");
+        ROBOTTESTINGFRAMEWORK_ASSERT_ERROR_IF_FALSE(portIn.open("/TestAssignmentCodec/i"), "Cannot open the output port");
+        ROBOTTESTINGFRAMEWORK_ASSERT_ERROR_IF_FALSE(rpc.open("/TestAssignmentCodec/rpc"), "Cannot open the output port");
 
-        RTF_ASSERT_ERROR_IF_FALSE(NetworkBase::connect("/coder/Codec/out", portIn.getName()),
+        ROBOTTESTINGFRAMEWORK_ASSERT_ERROR_IF_FALSE(NetworkBase::connect("/coder/Codec/out", portIn.getName()),
                                   "Cannot connect to /coder/Codec/out");
-        RTF_ASSERT_ERROR_IF_FALSE(NetworkBase::connect(portOut.getName(), "/coder/Codec/in"),
+        ROBOTTESTINGFRAMEWORK_ASSERT_ERROR_IF_FALSE(NetworkBase::connect(portOut.getName(), "/coder/Codec/in"),
                                   "Cannot connect to /coder/Codec/in");
-        RTF_ASSERT_ERROR_IF_FALSE(NetworkBase::connect(rpc.getName(), "/coder/Codec/rpc"),
+        ROBOTTESTINGFRAMEWORK_ASSERT_ERROR_IF_FALSE(NetworkBase::connect(rpc.getName(), "/coder/Codec/rpc"),
                                   "Cannot connect to /coder/Codec/rpc");
 
         portIn.useCallback();
@@ -83,7 +83,7 @@ public:
 
     /******************************************************************/
     virtual void tearDown() {
-        RTF_TEST_REPORT("Tearing down TestAssignmentCodec");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT("Tearing down TestAssignmentCodec");
         NetworkBase::disconnect("/coder/Codec/in", portIn.getName());
         NetworkBase::disconnect(portOut.getName(), "/coder/Codec/out");
         NetworkBase::disconnect(rpc.getName(), "/coder/Codec/rpc");
@@ -98,51 +98,51 @@ public:
     {
         Bottle cmd, reply;
 
-        RTF_TEST_REPORT("Setting coder mode");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT("Setting coder mode");
         // setting decoder mode
         cmd.clear();
         reply.clear();
         cmd.addString("set_mode");
         cmd.addString("coder");
         rpc.write(cmd, reply);
-        RTF_ASSERT_FAIL_IF_FALSE(reply.toString()=="[ok]", "setting decoder mode using set_mode()");
+        ROBOTTESTINGFRAMEWORK_ASSERT_FAIL_IF_FALSE(reply.toString()=="[ok]", "setting decoder mode using set_mode()");
 
-        RTF_TEST_REPORT("Testing coded");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT("Testing coded");
         // setting codec
         cmd.clear();
         reply.clear();
         cmd.addString("set_codec");
         cmd.addInt(64);
         rpc.write(cmd, reply);
-        RTF_TEST_CHECK(reply.toString()=="[ok]", "setting codec using set_codec()");
+        ROBOTTESTINGFRAMEWORK_TEST_CHECK(reply.toString()=="[ok]", "setting codec using set_codec()");
         // checking message
-        RTF_TEST_REPORT(Asserter::format("Writing test message %s", TEST_MESSAGE));
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT(Asserter::format("Writing test message %s", TEST_MESSAGE));
         Bottle& msg = portOut.prepare();
         msg.clear();
         msg.addString(TEST_MESSAGE);
         portOut.write(true);
-        RTF_TEST_REPORT("Reading decoded test message");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT("Reading decoded test message");
         string str = portIn.getMessage();
-        RTF_TEST_CHECK(str == string(TEST_MESSAGE_CODED),
+        ROBOTTESTINGFRAMEWORK_TEST_CHECK(str == string(TEST_MESSAGE_CODED),
                        Asserter::format("encoded message (%s == %s)", str.c_str(), TEST_MESSAGE_CODED) );
 
-        RTF_TEST_REPORT("Setting decoder mode");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT("Setting decoder mode");
         // setting decoder mode
         cmd.clear();
         reply.clear();
         cmd.addString("set_mode");
         cmd.addString("decoder");
         rpc.write(cmd, reply);
-        RTF_ASSERT_FAIL_IF_FALSE(reply.toString()=="[ok]", "setting decoder mode using set_mode()");
+        ROBOTTESTINGFRAMEWORK_ASSERT_FAIL_IF_FALSE(reply.toString()=="[ok]", "setting decoder mode using set_mode()");
         // checking message
-        RTF_TEST_REPORT(Asserter::format("Writing test message %s", TEST_MESSAGE_CODED));
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT(Asserter::format("Writing test message %s", TEST_MESSAGE_CODED));
         msg = portOut.prepare();
         msg.clear();
         msg.addString(TEST_MESSAGE_CODED);
         portOut.write(true);
-        RTF_TEST_REPORT("Reading coded test message");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT("Reading coded test message");
         str = portIn.getMessage();
-        RTF_TEST_CHECK(str == string(TEST_MESSAGE),
+        ROBOTTESTINGFRAMEWORK_TEST_CHECK(str == string(TEST_MESSAGE),
                        Asserter::format("encoded message (%s == %s)", str.c_str(), TEST_MESSAGE) );
 
 
@@ -154,4 +154,4 @@ public:
     }
 };
 
-PREPARE_PLUGIN(TestAssignmentCodec)
+ROBOTTESTINGFRAMEWORK_PREPARE_PLUGIN(TestAssignmentCodec)

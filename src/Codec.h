@@ -4,12 +4,12 @@
  * CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
  */
 
+#include <mutex>
 #include <string>
 #include <yarp/os/RFModule.h>
 #include <yarp/os/RpcServer.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/Bottle.h>
-#include <yarp/os/Mutex.h>
 #include <src/idl/Codec_IDL.h>
 
 class Codec : public yarp::os::RFModule, public Codec_IDL {
@@ -59,7 +59,7 @@ private:
     std::string decode(const std::string &msg);
 
 private:
-    yarp::os::Mutex mutex;
+    std::mutex mtx;
     char codecByte;
     std::string modeParam;
     yarp::os::RpcServer commandPort;                    // command port

@@ -7,6 +7,7 @@
 #include <Codec.h>
 #include <yarp/os/LogStream.h>
 
+using namespace std;
 using namespace yarp::os;
 
 
@@ -58,7 +59,7 @@ bool Codec::updateModule() {
         return false;
     std::string data;
 
-    mutex.lock();
+    mtx.lock();
     if(modeParam == "coder") {
         yInfo()<<"Encoding"<<input->toString();
         if(input->size())
@@ -69,7 +70,7 @@ bool Codec::updateModule() {
         if(input->size())
             data = decode(input->get(0).asString());
     }
-    mutex.unlock();
+    mtx.unlock();
 
     Bottle& output = outPort.prepare();
     output.clear();
@@ -102,9 +103,8 @@ bool Codec::close() {
 // ..
 
 bool Codec::set_codec(const int8_t c) {
-    mutex.lock();
+    lock_guard<mutex> lck(mtx);
     codecByte = (char) c;
-    mutex.unlock();
     return true;
 }
 
